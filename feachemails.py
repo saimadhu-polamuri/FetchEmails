@@ -18,9 +18,11 @@ class Emails():
 
 		tempemailslist = []
 
-		for word in re.split(',|-| |\n|/|:| ',line):
+		for word in re.split(',|-| \n|/|:| ',line):
 
-			relist = re.findall(r'[^@]+@[^@]+\.[a-z]+',word)
+			#relist = re.findall(r'[^@]+@[^@]+\.[a-z]+',word)
+			relist = re.findall(r'[A-Za-z0-9.]+@[^@]+\.[a-z]+',word)
+			#relist = re.findall(r'[\w\.-]+@[\w\.-]+',word)
 			if len(relist):
 				tempemailslist.extend(relist)
 
@@ -54,8 +56,9 @@ def main():
 	emailsInstance = Emails(filename)
 	emailids = emailsInstance.read_file()
 	#print emailids
-	emailsInstance.list_to_csvfile(emailids)
-	print "{emailscount} Emails  has be save to emails.csv file\n".format(emailscount=len(emailids))
+	#print len(list(set(emailids)))
+	emailsInstance.list_to_csvfile(list(set(emailids)))
+	print "{emailscount} Emails  has be save to emails.csv file\n".format(emailscount=len(list(set(emailids))))
 
 if __name__ == "__main__":
 	main()
